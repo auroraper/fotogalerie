@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Upload</title>
+</head>
+<body>
+
+<input type="file" id="fileInput" />
+<button onclick="uploadImage()">Upload</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabaseUrl = "https://buqhkvqtsnlnlwheotra.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1cWhrdnF0c25sbmx3aGVvdHJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwODcwMTMsImV4cCI6MjA5NjY2MzAxM30.8jHH3O3vmmRFaV0BHBvjwmscDa9vvjzxcZvJrKerY3w";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function uploadImage() {
+  const file = document.getElementById("fileInput").files[0];
+
+  const fileName = Date.now() + "_" + file.name;
+
+  // 1. Upload in Storage
+  const { data, error } = await supabase
+    .storage
+    .from("photos")
+    .upload(fileName, file);
+
+  if (error) {
+    alert("Upload error");
+    return;
+  }
+
+  // 2. Public URL holen
+  const { data: publicUrl } = supabase
+    .storage
+    .from("photos")
+    .getPublicUrl(fileName);
+
+  // 3. In Tabelle speichern (optional)
+  await supabase
+    .from("photos")
+    .insert([{ image_url: publicUrl.publicUrl, filename: fileName }]);
+
+  alert("Upload erfolgreich!");
+}
+</script>
+
+</body>
+</html>

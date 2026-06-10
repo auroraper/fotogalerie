@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gallery</title>
+</head>
+<body>
+
+<div id="gallery"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabaseUrl = "https://buqhkvqtsnlnlwheotra.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1cWhrdnF0c25sbmx3aGVvdHJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwODcwMTMsImV4cCI6MjA5NjY2MzAxM30.8jHH3O3vmmRFaV0BHBvjwmscDa9vvjzxcZvJrKerY3w";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function loadImages() {
+  const { data, error } = await supabase
+    .from("photos")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  const container = document.getElementById("gallery");
+
+  data.forEach(photo => {
+    const img = document.createElement("img");
+    img.src = photo.image_url;
+    img.style.width = "200px";
+    img.style.margin = "5px";
+    container.appendChild(img);
+  });
+}
+
+loadImages();
+</script>
+
+</body>
+</html>

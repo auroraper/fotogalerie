@@ -448,7 +448,7 @@
                         photo_url: urlData.publicUrl,
                         file_name: uniqueName,
                         upload_date: new Date().toISOString(),
-                        moderation_status: 'new'
+                        moderation_status: 'approved'
                     }]);
 
                 if (insertError) throw insertError;

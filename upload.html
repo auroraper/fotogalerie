@@ -7,9 +7,10 @@
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'poppins-bold', sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: #521E12;
         }
+
         body {
             background: #FF0063;
             margin: 0;
@@ -19,6 +20,7 @@
             align-items: center;
             min-height: 100vh;
         }
+
         .form-container {
             background: white;
             padding: 40px;
@@ -27,25 +29,23 @@
             max-width: 500px;
             width: 100%;
         }
+
         h1 {
-            margin: 0 0 8px 0;
-            font-size: 28px;
-            color: #521E12;
+            margin: 0 0 30px 0;
+            font-size: 24px;
         }
-        .subtitle {
-            color: #521E12;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         label {
             display: block;
             margin-bottom: 6px;
             font-weight: 600;
             font-size: 14px;
         }
+
         input[type="text"],
         textarea {
             width: 100%;
@@ -54,23 +54,26 @@
             border-radius: 8px;
             font-size: 14px;
             transition: border-color 0.2s;
+            color: #521E12;
         }
+
         input[type="text"]:focus,
         textarea:focus {
             outline: none;
             border-color: #FF0063;
         }
+
         textarea {
             resize: vertical;
             min-height: 100px;
         }
-        
-        /* Neue Kamera-Buttons */
+
         .camera-buttons {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
         }
+
         .camera-btn {
             flex: 1;
             padding: 16px;
@@ -81,26 +84,36 @@
             text-align: center;
             transition: all 0.2s;
         }
+
         .camera-btn:hover {
-            background: rgba(102, 56, 23, 0.1);
-            color: white;
+            background: rgba(82, 30, 18, 0.1);
         }
+
         .camera-btn .icon {
-            font-size: 32px;
-            margin-bottom: 8px;
+            font-size: 28px;
+            margin-bottom: 6px;
         }
+
         .camera-btn .text {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
+
         .camera-btn input {
             display: none;
         }
-        
+
+        .or-divider {
+            text-align: center;
+            margin: 12px 0;
+            color: #999;
+            font-size: 13px;
+        }
+
         .file-upload {
             position: relative;
             width: 100%;
-            padding: 40px 20px;
+            padding: 35px 20px;
             border: 2px dashed #ccc;
             border-radius: 8px;
             text-align: center;
@@ -108,14 +121,13 @@
             background: #fafafa;
             transition: all 0.2s;
         }
-        .file-upload:hover {
-            border-color: #FF0063;
-            background: rgba(102, 56, 23, 0.1);
-        }
+
+        .file-upload:hover,
         .file-upload.dragover {
             border-color: #FF0063;
-            background: #e8edff;
+            background: rgba(255, 0, 99, 0.05);
         }
+
         .file-upload input {
             position: absolute;
             top: 0;
@@ -125,64 +137,62 @@
             opacity: 0;
             cursor: pointer;
         }
+
         .file-upload-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 36px;
+            margin-bottom: 8px;
         }
+
         .file-upload-text {
             color: #666;
             font-size: 14px;
         }
+
         .file-name {
-            margin-top: 10px;
+            margin-top: 8px;
             font-size: 13px;
             color: #FF0063;
             font-weight: 500;
         }
+
         .preview-container {
             margin-top: 15px;
             display: none;
         }
+
         .preview-container img {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 220px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: block;
         }
-        
-        /* Bestätigungs-Buttons unter dem Bild */
+
         .confirm-buttons {
             display: none;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 12px;
         }
+
         .confirm-btn {
             flex: 1;
-            padding: 12px 20px;
+            padding: 12px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        .confirm-btn.accept {
-            background: #28a745;
+            transition: background 0.2s;
             color: white;
         }
-        .confirm-btn.accept:hover {
-            background: #218838;
-        }
-        .confirm-btn.reject {
-            background: #dc3545;
-            color: white;
-        }
-        .confirm-btn.reject:hover {
-            background: #c82333;
-        }
-        
-        button {
+
+        .confirm-btn.accept { background: #28a745; }
+        .confirm-btn.accept:hover { background: #218838; }
+        .confirm-btn.reject { background: #dc3545; }
+        .confirm-btn.reject:hover { background: #c82333; }
+
+        .submit-btn {
             width: 100%;
+            margin-top: 20px;
             padding: 16px;
             background: #521E12;
             color: white;
@@ -193,108 +203,112 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        button:hover {
+
+        .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 56, 23, 0.4);
+            box-shadow: 0 5px 20px rgba(82, 30, 18, 0.4);
         }
-        button:disabled {
+
+        .submit-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
+
+        .submit-btn.hidden {
+            display: none;
+        }
+
         .message {
-            padding: 15px;
+            padding: 14px;
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
+            font-size: 14px;
         }
+
         .success {
             background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+
         .error {
             background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
         .gallery-link {
             text-align: center;
             margin-top: 20px;
+            font-size: 14px;
         }
+
         .gallery-link a {
             color: #521E12;
             text-decoration: none;
             font-weight: 500;
         }
+
         .gallery-link a:hover {
             text-decoration: underline;
-        }
-        
-        /* Versteckter Submit-Button bis Bestätigung */
-        #submitBtn.hidden {
-            display: none;
-        }
-        
-        .or-divider {
-            text-align: center;
-            margin: 15px 0;
-            color: #999;
-            font-size: 13px;
         }
     </style>
 </head>
 <body>
     <div class="form-container">
-    
-    <div style="text-align: center; margin-bottom: 25px;">
-        <img src="KOMBIO.png" alt="Logo" style="max-width: 150px; height: auto;">
-    </div>
-        <h1>Foto hochladen</h1>
-        <p class="subtitle">Teile dein Kombio Moment</p>
-        
+
+        <div style="text-align: center; margin-bottom: 25px;">
+            <img src="KOMBIO.png" alt="Kombio Logo" style="max-width: 150px; height: auto;">
+        </div>
+
+        <h1>Teile deinen Kombio Moment</h1>
+
         <div class="message success" id="successMsg">
-            Vielen Dank! Dein Foto wurde erfolgreich hochgeladen.
+            ✅ Vielen Dank! Dein Foto wurde erfolgreich hochgeladen.
         </div>
         <div class="message error" id="errorMsg">
             ❌ Es gab einen Fehler. Bitte versuche es erneut.
         </div>
-        
+
         <form id="uploadForm">
             <div class="form-group">
                 <label for="name">Dein Name</label>
                 <input type="text" id="name" name="name" placeholder="Max Mustermann">
             </div>
-            
+
             <div class="form-group">
-                <label for="description">Beschreibung des Fotos</label>
+                <label for="description">Beschreibung</label>
                 <textarea id="description" name="description" placeholder="Erzähle von deinem Kombio Moment..."></textarea>
             </div>
-            
+
             <div class="form-group">
                 <label>Foto aufnehmen oder auswählen</label>
-                
-                <!-- Kamera-Buttons für Handy -->
+
                 <div class="camera-buttons">
                     <label class="camera-btn">
                         <div class="icon">📷</div>
-                        <div class="text">Foto aufnehmen</div>
+                        <div class="text">Kamera</div>
                         <input type="file" id="cameraInput" accept="image/*" capture="environment">
-              
+                    </label>
+                    <label class="camera-btn">
+                        <div class="icon">🤳</div>
+                        <div class="text">Selfie</div>
+                        <input type="file" id="selfieInput" accept="image/*" capture="user">
+                    </label>
                 </div>
-                
+
                 <div class="or-divider">— oder —</div>
-                
-                <!-- Klassischer File-Upload -->
+
                 <div class="file-upload" id="fileUpload">
                     <input type="file" id="photo" name="photo" accept="image/*">
                     <div class="file-upload-icon">🖼️</div>
                     <div class="file-upload-text">Aus Galerie wählen oder Bild hineinziehen</div>
                     <div class="file-name" id="fileName"></div>
                 </div>
-                
-                <!-- Vorschau mit Bestätigungs-Buttons -->
+
                 <div class="preview-container" id="previewContainer">
                     <img id="previewImage" src="" alt="Vorschau">
                     <div class="confirm-buttons" id="confirmButtons">
@@ -303,10 +317,10 @@
                     </div>
                 </div>
             </div>
-            
-            <button type="submit" id="submitBtn" class="hidden">Foto hochladen</button>
+
+            <button type="submit" id="submitBtn" class="submit-btn hidden">Foto hochladen</button>
         </form>
-        
+
         <div class="gallery-link">
             <a href="gallery.html">Zur Kombio Galerie</a>
         </div>
@@ -339,45 +353,38 @@
         let selectedFile = null;
         let photoConfirmed = false;
 
-        // Funktion zum Anzeigen der Vorschau
         function showPreview(file) {
             selectedFile = file;
             photoConfirmed = false;
             fileName.textContent = file.name;
-            
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 previewImage.src = e.target.result;
                 previewContainer.style.display = 'block';
                 confirmButtons.style.display = 'flex';
                 submitBtn.classList.add('hidden');
+                previewContainer.style.border = 'none';
+                previewContainer.style.padding = '0';
             };
             reader.readAsDataURL(file);
         }
 
-        // Event-Listener für alle Foto-Inputs
         [fileInput, cameraInput, selfieInput].forEach(input => {
             input.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    showPreview(file);
-                }
+                if (e.target.files[0]) showPreview(e.target.files[0]);
             });
         });
 
-        // Foto bestätigen
         confirmPhoto.addEventListener('click', () => {
             photoConfirmed = true;
             confirmButtons.style.display = 'none';
             submitBtn.classList.remove('hidden');
-            
-            // Visuelles Feedback
             previewContainer.style.border = '3px solid #28a745';
             previewContainer.style.borderRadius = '12px';
             previewContainer.style.padding = '10px';
         });
 
-        // Neues Foto aufnehmen
         retakePhoto.addEventListener('click', () => {
             selectedFile = null;
             photoConfirmed = false;
@@ -387,56 +394,43 @@
             confirmButtons.style.display = 'none';
             submitBtn.classList.add('hidden');
             fileName.textContent = '';
-            
-            // Alle Inputs zurücksetzen
-            fileInput.value = '';
-            cameraInput.value = '';
-            selfieInput.value = '';
+            [fileInput, cameraInput, selfieInput].forEach(i => i.value = '');
         });
 
-        // Drag & Drop
         fileUpload.addEventListener('dragover', (e) => {
             e.preventDefault();
             fileUpload.classList.add('dragover');
         });
-        fileUpload.addEventListener('dragleave', () => {
-            fileUpload.classList.remove('dragover');
-        });
+        fileUpload.addEventListener('dragleave', () => fileUpload.classList.remove('dragover'));
         fileUpload.addEventListener('drop', (e) => {
             e.preventDefault();
             fileUpload.classList.remove('dragover');
-            if (e.dataTransfer.files.length) {
-                showPreview(e.dataTransfer.files[0]);
-            }
+            if (e.dataTransfer.files.length) showPreview(e.dataTransfer.files[0]);
         });
 
-        // Formular absenden
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             if (!selectedFile || !photoConfirmed) {
                 alert('Bitte wähle ein Foto aus und bestätige es.');
                 return;
             }
-            
+
             submitBtn.disabled = true;
             submitBtn.textContent = 'Wird hochgeladen...';
             successMsg.style.display = 'none';
             errorMsg.style.display = 'none';
 
-            const name = document.getElementById('name').value;
-            const description = document.getElementById('description').value;
+            const name = document.getElementById('name').value.trim();
+            const description = document.getElementById('description').value.trim();
 
             try {
-                const fileExt = selectedFile.name.split('.').pop();
+                const fileExt = selectedFile.name.split('.').pop().toLowerCase();
                 const uniqueName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
 
-                const { data: uploadData, error: uploadError } = await supabase.storage
+                const { error: uploadError } = await supabase.storage
                     .from(BUCKET_NAME)
-                    .upload(uniqueName, selectedFile, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
+                    .upload(uniqueName, selectedFile, { cacheControl: '3600', upsert: false });
 
                 if (uploadError) throw uploadError;
 
@@ -469,7 +463,7 @@
                 photoConfirmed = false;
 
             } catch (error) {
-                console.error('Fehler:', error);
+                console.error('Upload-Fehler:', error);
                 errorMsg.textContent = `❌ Fehler: ${error.message}`;
                 errorMsg.style.display = 'block';
             } finally {

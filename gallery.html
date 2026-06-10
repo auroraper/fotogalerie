@@ -294,7 +294,6 @@
                 const { data: photos, error } = await supabase
                     .from(TABLE_NAME)
                     .select('*')
-                    .eq('moderation_status', 'approved')
                     .order('upload_date', { ascending: false });
 
                 if (error) throw error;

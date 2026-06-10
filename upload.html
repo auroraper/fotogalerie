@@ -214,10 +214,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // ⚠️ WICHTIG: Ersetze diese Werte mit deinen Supabase-Daten
         const SUPABASE_URL = 'https://buqhkvqtsnlnlwheotra.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1cWhrdnF0c25sbmx3aGVvdHJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwODcwMTMsImV4cCI6MjA5NjY2MzAxM30.8jHH3O3vmmRFaV0BHBvjwmscDa9vvjzxcZvJrKerY3w';
-        const BUCKET_NAME = 'photos'; // Dein Storage Bucket Name
+        const BUCKET_NAME = 'galerie'; // Dein Storage Bucket Name
         const TABLE_NAME = 'photos';  // Deine Tabelle für Metadaten (optional)
 
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

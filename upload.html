@@ -1,50 +1,336 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <title>Photo Upload</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kombio Galerie</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'poppins-bold', sans-serif
+        }
+        body {
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        header {
+            background: #521E12;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0 0 20px 0;
+            font-size: 36px;
+        }
+        header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .upload-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: #FF0063;
+            color: #521E12;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .gallery-stats {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .gallery-item {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-item-info {
+            padding: 20px;
+        }
+        .gallery-item-name {
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 8px 0;
+            font-size: 16px;
+        }
+        .gallery-item-description {
+            color: #666;
+            font-size: 14px;
+            margin: 0 0 12px 0;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .gallery-item-date {
+            color: #999;
+            font-size: 12px;
+        }
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e0e0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .no-photos {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+        }
+        .no-photos-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+        .lightbox-info {
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .lightbox-close:hover {
+            transform: scale(1.2);
+        }
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+    </style>
 </head>
 <body>
+    <div class="form-container">
+    
+    <!-- Logo zentriert -->
+    <div style="text-align: center; margin-bottom: 25px;">
+        <img src="KOMBIO.png" alt="Logo" style="max-width: 150px; height: auto;">
+    </div>
+    <header>
+        <h1>Kombio Galerie</h1>
+        <p>Teile deine Runde mit uns!</p>
+        <a href="upload.html" class="upload-btn">Foto hochladen</a>
+    </header>
 
-<input type="file" id="fileInput" />
-<button onclick="uploadImage()">Upload</button>
+    <div class="gallery-container">
+        <div class="gallery-stats" id="stats"></div>
+        
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Fotos werden geladen...</p>
+        </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+        <div class="no-photos" id="noPhotos" style="display: none;">
+            <div class="no-photos-icon">📭</div>
+            <h2>Noch keine Fotos vorhanden</h2>
+            <p>Sei der Erste und lade ein Foto hoch!</p>
+            <a href="upload.html" class="upload-btn" style="margin-top: 20px;">📸 Jetzt hochladen</a>
+        </div>
 
-<script>
-const supabaseUrl = "https://buqhkvqtsnlnlwheotra.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1cWhrdnF0c25sbmx3aGVvdHJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwODcwMTMsImV4cCI6MjA5NjY2MzAxM30.8jHH3O3vmmRFaV0BHBvjwmscDa9vvjzxcZvJrKerY3w";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
 
-async function uploadImage() {
-  const file = document.getElementById("fileInput").files[0];
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">×</span>
+        <div class="lightbox-content">
+            <img id="lightboxImage" src="" alt="">
+            <div class="lightbox-info">
+                <h3 id="lightboxName"></h3>
+                <p id="lightboxDescription"></p>
+            </div>
+        </div>
+    </div>
 
-  const fileName = Date.now() + "_" + file.name;
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://buqhkvqtsnlnlwheotra.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1cWhrdnF0c25sbmx3aGVvdHJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwODcwMTMsImV4cCI6MjA5NjY2MzAxM30.8jHH3O3vmmRFaV0BHBvjwmscDa9vvjzxcZvJrKerY3w';
+        const TABLE_NAME = 'photos';
 
-  // 1. Upload in Storage
-  const { data, error } = await supabase
-    .storage
-    .from("photos")
-    .upload(fileName, file);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  if (error) {
-    alert("Upload error");
-    return;
-  }
+        const galleryGrid = document.getElementById('galleryGrid');
+        const loading = document.getElementById('loading');
+        const noPhotos = document.getElementById('noPhotos');
+        const stats = document.getElementById('stats');
+        const lightbox = document.getElementById('lightbox');
 
-  // 2. Public URL holen
-  const { data: publicUrl } = supabase
-    .storage
-    .from("photos")
-    .getPublicUrl(fileName);
+        // Fotos laden
+        async function loadPhotos() {
+            try {
+                // Nur genehmigte Fotos laden
+                const { data: photos, error } = await supabase
+                    .from(TABLE_NAME)
+                    .select('*')
+                    .eq('moderation_status', 'approved')
+                    .order('upload_date', { ascending: false });
 
-  // 3. In Tabelle speichern (optional)
-  await supabase
-    .from("photos")
-    .insert([{ image_url: publicUrl.publicUrl, filename: fileName }]);
+                if (error) throw error;
 
-  alert("Upload erfolgreich!");
-}
-</script>
+                loading.style.display = 'none';
 
+                if (!photos || photos.length === 0) {
+                    noPhotos.style.display = 'block';
+                    return;
+                }
+
+                stats.textContent = `${photos.length} Foto${photos.length !== 1 ? 's' : ''} in der Galerie`;
+
+                photos.forEach(photo => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.onclick = () => openLightbox(photo);
+                    
+                    const date = new Date(photo.upload_date).toLocaleDateString('de-DE', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+
+                    item.innerHTML = `
+                        <img src="${photo.photo_url}" alt="${photo.photo_description || 'Foto'}" loading="lazy">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-name">${photo.submitter_name || 'Anonym'}</h3>
+                            ${photo.photo_description ? `<p class="gallery-item-description">${photo.photo_description}</p>` : ''}
+                            <span class="gallery-item-date">📅 ${date}</span>
+                        </div>
+                    `;
+                    
+                    galleryGrid.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error('Fehler beim Laden:', error);
+                loading.innerHTML = `<p>❌ Fehler beim Laden der Fotos: ${error.message}</p>`;
+            }
+        }
+
+        // Lightbox öffnen
+        function openLightbox(photo) {
+            document.getElementById('lightboxImage').src = photo.photo_url;
+            document.getElementById('lightboxName').textContent = photo.submitter_name || 'Anonym';
+            document.getElementById('lightboxDescription').textContent = photo.photo_description || '';
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Lightbox schließen
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ESC-Taste zum Schließen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Klick außerhalb zum Schließen
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Fotos beim Laden der Seite abrufen
+        loadPhotos();
+    </script>
 </body>
 </html>

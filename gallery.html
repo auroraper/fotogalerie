@@ -67,8 +67,7 @@
         }
 
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            columns: 3 280px;
             gap: 25px;
         }
 
@@ -79,6 +78,8 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            break-inside: avoid;
+            margin-bottom: 25px;    
         }
 
         .gallery-item:hover {
